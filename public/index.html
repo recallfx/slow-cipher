@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" type="image/jpg" href="favicon.ico" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Slow Cipher demo page" />
+  <title>Slow Cipher</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+  <noscript
+    >You need to enable JavaScript to run this
+    app.</noscript
+  >
+  <main class="container">
+    <h1>Slow Cipher Demo</h1>
+    <hr/>
+    <h2>Initial values <div class="input-container"><button id="load">Load</button><button id="fill">Fill</button><button id="clear">Clear</button></div></h2>
+    <p class="input-container">
+      <div class="input-field">
+        <label for="key">Key</label>
+        <input id="key" type="text" placeholder="Key hex" />    
+      </div>
+      <div class='input-field'>
+        <label for="salt">Salt</label>
+        <input id="salt" type="text" placeholder="Salt hex" />
+      </div>
+      <div class='input-field'>
+        <label for="iv">iv</label>
+        <input id="iv" type="text" placeholder="iv hex" /><br/>
+      </div><br/>
+      <div class='input-field'>
+        <label for="stepCount">Step count</label>
+        <input id="stepCount" type="text" placeholder="step count" />
+      </div>
+      <div class='input-field'>
+        <label for="startIndex">Start index</label>
+        <input id="startIndex" type="text" placeholder="start index" />
+      </div>
+    </p>
+
+    <h2>Encryption</h2>
+    <p>
+      <form id="formEncrypt">
+        <label for="inputEncrypt">Secret message<sup>*</sup></label>
+        <input id="inputEncrypt" type="text" value="secret!" placeholder="secret message" required />
+        <input type="submit" value="Encrypt" />
+      </form>  
+    </p>
+
+    <h2>Generated output</h2>
+    <p>
+      <label for="computedKey">Computed Key</label>
+      <input id="computedKey" type="text" placeholder="Computed key hex" />
+      <div id="output"></div>
+    </p>
+    
+    <h2>Decryption</h2>
+    <p>
+      <form id="formDecrypt">
+        <label for="inputDecrypt">Encrypted message<sup>*</sup></label>
+        <input id="inputDecrypt" type="text" placeholder="encrypted message" required />
+        <input name='download' type="submit" value="Download view script" />
+        <input type="submit" value="Decrypt" />
+      </form>
+
+      <div id="decryptResult"></div>
+    </p>
+  </main>
+  <script type="module" src="js/demo.js"></script>
+</body>
+
+</html>
