@@ -186,7 +186,7 @@ async function onDownload() {
   const ivHex = ivEl.value;
   const stepCount = Number(stepCountEl.value);
 
-  let script = await fetchScript('/js/view.js');
+  let script = await fetchScript('js/view.js');
 
   var style =
     'position: fixed; color: #c1c1c1; background-color: #313131; top: 50px; z-index: 99999; padding: 12px; border-radius: 6px; left: 30px; box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.68);';

@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "esbuild demo=src/demo.js view=src/view.js --bundle --format=esm --target=esnext --servedir=public --legal-comments=none --outdir=public/js",
     "prod": "yarn dev --minify",
-    "build": "esbuild src/index.js src/view.js --bundle --format=esm --target=esnext --minify --legal-comments=none --outdir=dist/",
+    "build": "esbuild src/index.js src/view.js src/demo.js --bundle --format=esm --target=esnext --minify --legal-comments=none --outdir=dist/",
     "get-random-salt": "./bin/run-slow-cipher.js randomHex"
   },
   "dependencies": {
