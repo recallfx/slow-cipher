@@ -3,3 +3,4 @@ dist
 .history
 .DS_Store
 view_browser.js
+public/js

@@ -6,6 +6,8 @@ One particular use case could be anonymous delayed secret message store, that is
 
 Since it takes long time to encode the key, it is safe to keep initial keys within container, an example can be generated 
 
+
+Check out [demo](https://recallfx.github.io/slow-cipher/)
 ## Install
 
 ```
@@ -44,6 +46,7 @@ console.log('fastOriginalMessage', fastOriginalMessage);
 ## View Example
 
 First run `yarn build`.
+
 Run using command: `node --es-module-specifier-resolution=node examples/view.js`.
 
 ```
