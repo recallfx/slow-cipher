@@ -2,8 +2,16 @@
   "name": "slow-cipher",
   "version": "0.1.0",
   "description": "Intentionally slow cipher",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "author": "Marius Bieliauskas",
+  "files": [
+    "dist/index.js",
+    "dist/view.js"
+  ],
+  "repository": {
+    "type": "git",    
+    "url": "git+https://github.com/recallfx/slow-cipher.git"
+  },
   "license": "MIT",
   "private": false,
   "type": "module",
