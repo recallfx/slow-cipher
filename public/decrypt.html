@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" type="image/jpg" href="favicon.ico" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Slow Cipher decrypt page" />
+  <title>Slow Cipher - Decrypt</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body class="container">
+  <noscript
+    >You need to enable JavaScript to run this
+    app.</noscript
+  >
+  <main>
+    <h1>Slow Cipher Decrypt</h1>
+    <hr/>
+
+    <p>
+      <div id="decrypt"></div>
+    </p>
+  </main>
+  <footer>
+    <span>Copyright © 2022 - All right reserved</span>
+
+    <a href="https://github.com/recallfx/slow-cipher"><img src="gh.png"/></a>
+  </footer>  
+
+  <script type="module">
+    import slowCipherView from './js/view.js';
+    const searchParams = new URLSearchParams(location.search);
+    const uuid = searchParams.get('uuid');
+    const cipherText = searchParams.get('cipherText');
+    const key = searchParams.get('key');
+    const salt = searchParams.get('salt');
+    const iv = searchParams.get('iv');
+    const stepCount = searchParams.get('stepCount');
+
+    if (uuid && cipherText && key && salt && iv && stepCount) {
+      slowCipherView('decrypt', uuid, cipherText, key, salt, iv, Number(stepCount));
+    } else {
+      const decryptEl = document.getElementById('decrypt');
+
+      decryptEl.innerHTML = 'This page requires specific URL generated <a href="../">here</a>'
+    }
+  </script>
+</body>
+
+</html>

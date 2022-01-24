@@ -13,7 +13,7 @@ const encodingDefaults = {
 const requestAnimationFrameCb = typeof window !== 'undefined' ? requestAnimationFrame : ((cb) => cb());
 
 export function randomHex(length = 512) {
-  const words = CryptoJs.lib.WordArray.random(length);
+  const words = CryptoJs.lib.WordArray.random(length / 8);
 
   return wordsToHex(words);
 }

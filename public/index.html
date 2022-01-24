@@ -11,35 +11,39 @@
   <link rel="stylesheet" href="index.css">
 </head>
 
-<body>
+<body class="container">
   <noscript
     >You need to enable JavaScript to run this
     app.</noscript
   >
-  <main class="container">
+  <main>
     <h1>Slow Cipher Demo</h1>
     <hr/>
-    <h2>Initial values <div class="input-container"><button id="load">Load</button><button id="fill">Fill</button><button id="clear">Clear</button></div></h2>
+    <h2>Initial values <div class="input-container">
+      <button id="fill" title="Fill initial values with random values">Fill initial values</button>
+      <button id="load" title="Load last saved state from browser memory">Load last state</button>
+      <button id="clear" title="Clear browser memory and all fields">Clear last state</button>
+    </div></h2>
     <p class="input-container">
       <div class="input-field">
-        <label for="key">Key</label>
-        <input id="key" type="text" placeholder="Key hex" />    
+        <label for="key">Key <sup>512bit hex</sup></label>
+        <input id="key" type="text" placeholder="Key" />
       </div>
       <div class='input-field'>
-        <label for="salt">Salt</label>
-        <input id="salt" type="text" placeholder="Salt hex" />
+        <label for="salt">Salt <sup>512bit hex</sup></label>
+        <input id="salt" type="text" placeholder="Salt" />
       </div>
       <div class='input-field'>
-        <label for="iv">iv</label>
-        <input id="iv" type="text" placeholder="iv hex" /><br/>
+        <label for="iv">Initialization vector (iv) <sup>512bit hex</sup></label>
+        <input id="iv" type="text" placeholder="iv" /><br/>
       </div><br/>
       <div class='input-field'>
         <label for="stepCount">Step count</label>
-        <input id="stepCount" type="text" placeholder="step count" />
+        <input id="stepCount" type="number" placeholder="step count" min="0" value="10000" />
       </div>
       <div class='input-field'>
         <label for="startIndex">Start index</label>
-        <input id="startIndex" type="text" placeholder="start index" />
+        <input id="startIndex" type="number" placeholder="start index" min="0" value="0" />
       </div>
     </p>
 
@@ -71,6 +75,12 @@
       <div id="decryptResult"></div>
     </p>
   </main>
+  <footer>
+    <span>Copyright © 2022 - All right reserved</span>
+
+    <a href="https://github.com/recallfx/slow-cipher"><img src="gh.png"/></a>
+  </footer>  
+
   <script type="module" src="js/demo.js"></script>
 </body>
 

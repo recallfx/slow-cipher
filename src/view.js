@@ -36,18 +36,21 @@ function callback({
   outputEl,
 }) {
   if (index % 1000 === 0 || force) {
-    localStorage.setItem(
-      `computeData${uuid}`,
-      JSON.stringify({
-        keyHex,
-        saltHex,
-        ivHex,
-        stepCount,
-        startIndex,
-        index,
-        computedKeyHex,
-      }),
-    );
+    try {
+      localStorage.setItem(
+        `computeData${uuid}`,
+        JSON.stringify({
+          keyHex,
+          saltHex,
+          ivHex,
+          stepCount,
+          startIndex,
+          index,
+          computedKeyHex,
+        }),
+      );  
+    } catch (_) {
+    }
   }
 
   if (index % 10 === 0) {
@@ -85,7 +88,12 @@ async function view(outputId, uuid, cipherText, keyHex, saltHex, ivHex, stepCoun
   rootEl.append(outputEl);
   rootEl.append(resultEl);
 
-  const computeDataString = localStorage.getItem(`computeData${uuid}`);
+  let computeDataString;
+
+  try {
+    computeDataString = localStorage.getItem(`computeData${uuid}`);
+  } catch (_) {
+  }
 
   if (computeDataString) {
     const data = JSON.parse(computeDataString);
@@ -102,7 +110,7 @@ async function view(outputId, uuid, cipherText, keyHex, saltHex, ivHex, stepCoun
 
   resultEl.innerHTML = `
   <div class="slow-cipher__container">
-    <div class="slow-cipher__result">Password received: ${message}</div>
+    <div class="slow-cipher__result">Password received: <code>${message}</code></div>
   </div>
   `;
 }

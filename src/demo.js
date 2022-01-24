@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 import { encrypt, decrypt, randomHex } from './slow-cipher';
 
 const STEP_COUNT = 10000;
-const KEY_BYTE_LENGTH = 512;
+const KEY_BIT_LENGTH = 512;
 
 const loadEl = document.getElementById('load');
 const fillEl = document.getElementById('fill');
@@ -53,9 +53,9 @@ function downloadScript(script, name) {
 }
 
 function fill() {
-  keyEl.value = randomHex(KEY_BYTE_LENGTH);
-  saltEl.value = randomHex(KEY_BYTE_LENGTH);
-  ivEl.value = randomHex(KEY_BYTE_LENGTH);
+  keyEl.value = randomHex(KEY_BIT_LENGTH);
+  saltEl.value = randomHex(KEY_BIT_LENGTH);
+  ivEl.value = randomHex(KEY_BIT_LENGTH);
   stepCountEl.value = STEP_COUNT.toString();
   startIndexEl.value = 0;
   computedKeyEl.value = '';
@@ -67,7 +67,11 @@ function clear() {
 }
 
 function load() {
-  const computeDataString = localStorage.getItem('computeData');
+  let computeDataString;
+
+  try {
+    computeDataString = localStorage.getItem('computeData');
+  } catch(_) {}
 
   if (computeDataString) {
     const { keyHex, saltHex, ivHex, stepCount, index, computedKeyHex } = JSON.parse(computeDataString);
@@ -91,7 +95,9 @@ function printProgress(remainingTime, iterationsPerSecond, index, stepCount, com
       end: getTime(Date.now()) + Math.round(remainingTime * 1000),
     });
     durationString = formatDuration(duration);
-  } catch (error) {}
+  } catch (error) {
+    durationString = 'N/A';
+  }
 
   outputEl.innerHTML = `<div>ETA: ${durationString}, ops/s: ${Math.round(
     iterationsPerSecond,
@@ -116,18 +122,20 @@ function callback({
       startIndexEl.value = index;
     }
 
-    localStorage.setItem(
-      'computeData',
-      JSON.stringify({
-        keyHex,
-        saltHex,
-        ivHex,
-        stepCount,
-        startIndex,
-        index,
-        computedKeyHex,
-      }),
-    );
+    try {
+      localStorage.setItem(
+        'computeData',
+        JSON.stringify({
+          keyHex,
+          saltHex,
+          ivHex,
+          stepCount,
+          startIndex,
+          index,
+          computedKeyHex,
+        }),
+      );        
+    } catch (_) {}
   }
 
   if (index % 10 === 0 || force) {
@@ -153,6 +161,8 @@ async function onSubmitEncrypt(event) {
 
   computedKeyEl.value = computedKeyHex;
   inputDecryptEl.value = cipherText;
+
+  outputEl.innerHTML = `Decryption <a href="./decrypt.html?uuid=${nanoid()}&cipherText=${encodeURIComponent(cipherText)}&key=${keyEl.value}&salt=${saltEl.value}&iv=${ivEl.value}&stepCount=${stepCountEl.value}">url</a>`;
 }
 
 async function onSubmitDecrypt(event) {
