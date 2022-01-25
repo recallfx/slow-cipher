@@ -1,7 +1,2 @@
-import * as slowCipher from './slow-cipher';
-import slowCipherView from './view';
-
-export default {
-  ...slowCipher,
-  slowCipherView,
-};
+export { randomHex, computeKey, encryptWithComputedKey, encrypt, decryptWithComputedKey, decrypt } from './slow-cipher';
+export { default as slowCipherView } from './view';

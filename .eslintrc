@@ -1,0 +1,15 @@
+{
+  "extends": ["airbnb-base", "prettier"],
+  "rules": {
+    "no-plusplus": 0,
+    "no-console": 0,
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "no-use-before-define": "off",
+    "no-unused-vars": "warn",
+    "import/prefer-default-export": 1,
+    "no-shadow": 1,
+    "prefer-const": 1,
+    "prefer-spread": 1,
+    "no-unused-expressions": ["error", { "allowShortCircuit": true, "allowTernary": true }]
+  }
+}

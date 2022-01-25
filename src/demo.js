@@ -1,3 +1,4 @@
+/* eslint-env browser */
 import { intervalToDuration, formatDuration, getTime } from 'date-fns';
 import { nanoid } from 'nanoid';
 import { encrypt, decrypt, randomHex } from './slow-cipher';
@@ -13,6 +14,7 @@ clearEl.onclick = clear;
 loadEl.onclick = load;
 fillEl.onclick = fill;
 
+const formInitEl = document.getElementById('formInit');
 const keyEl = document.getElementById('key');
 const saltEl = document.getElementById('salt');
 const ivEl = document.getElementById('iv');
@@ -21,6 +23,7 @@ const startIndexEl = document.getElementById('startIndex');
 const formEncryptEl = document.getElementById('formEncrypt');
 const inputEncryptEl = document.getElementById('inputEncrypt');
 
+const formOutputEl = document.getElementById('formOutput');
 const computedKeyEl = document.getElementById('computedKey');
 const outputEl = document.getElementById('output');
 
@@ -43,8 +46,8 @@ async function fetchScript(url) {
 }
 
 function downloadScript(script, name) {
-  let element = document.createElement('a');
-  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(script));
+  const element = document.createElement('a');
+  element.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(script)}`);
   element.setAttribute('download', name);
   element.style.display = 'none';
   document.body.appendChild(element);
@@ -71,7 +74,8 @@ function load() {
 
   try {
     computeDataString = localStorage.getItem('computeData');
-  } catch(_) {}
+    // eslint-disable-next-line no-empty
+  } catch (_) {}
 
   if (computeDataString) {
     const { keyHex, saltHex, ivHex, stepCount, index, computedKeyHex } = JSON.parse(computeDataString);
@@ -83,6 +87,7 @@ function load() {
     startIndexEl.value = index.toString();
     computedKeyEl.value = computedKeyHex;
   } else {
+    // eslint-disable-next-line no-alert
     alert('No saved data found in local storage');
   }
 }
@@ -118,10 +123,6 @@ function callback({
   force,
 }) {
   if (index % 1000 === 0 || force) {
-    if (force) {
-      startIndexEl.value = index;
-    }
-
     try {
       localStorage.setItem(
         'computeData',
@@ -134,11 +135,15 @@ function callback({
           index,
           computedKeyHex,
         }),
-      );        
+      );
+    // eslint-disable-next-line no-empty
     } catch (_) {}
   }
 
-  if (index % 10 === 0 || force) {
+  if (force) {
+    startIndexEl.value = index;
+    outputEl.innerHTML = '';
+  } else {
     printProgress(remainingTime, iterationsPerSecond, index, stepCount, computedKeyHex);
   }
 }
@@ -146,8 +151,22 @@ function callback({
 async function onSubmitEncrypt(event) {
   event.preventDefault();
 
+  if (!formInitEl.checkValidity()) {
+    formInitEl.reportValidity();
+    return;
+  }
+
   const startIndex = Number(startIndexEl.value);
-  const key = startIndex > 0 ? computedKeyEl.value : keyEl.value;
+  let key = keyEl.value;
+
+  if (startIndex > 0) {
+    if (!formOutputEl.checkValidity()) {
+      formOutputEl.reportValidity();
+      return;
+    }  
+
+    key = computedKeyEl.value;
+  }
 
   const { computedKeyHex, cipherText } = await encrypt(
     inputEncryptEl.value,
@@ -162,14 +181,27 @@ async function onSubmitEncrypt(event) {
   computedKeyEl.value = computedKeyHex;
   inputDecryptEl.value = cipherText;
 
-  outputEl.innerHTML = `Decryption <a href="./decrypt.html?uuid=${nanoid()}&cipherText=${encodeURIComponent(cipherText)}&key=${keyEl.value}&salt=${saltEl.value}&iv=${ivEl.value}&stepCount=${stepCountEl.value}">url</a>`;
+  outputEl.innerHTML = `Decryption <a href="./decrypt.html?uuid=${nanoid()}&cipherText=${encodeURIComponent(
+    cipherText,
+  )}&key=${keyEl.value}&salt=${saltEl.value}&iv=${ivEl.value}&stepCount=${stepCountEl.value}">url</a>`;
 }
 
 async function onSubmitDecrypt(event) {
   event.preventDefault();
 
+  if (!formInitEl.checkValidity()) {
+    formInitEl.reportValidity();
+    return;
+  }
+
+  if (!formOutputEl.checkValidity()) {
+    formOutputEl.reportValidity();
+    return;
+  }
+
   if (event.submitter.name === 'download') {
-    return onDownload();
+    onDownload();
+    return;
   }
 
   const startIndex = Number(startIndexEl.value);
@@ -198,7 +230,7 @@ async function onDownload() {
 
   let script = await fetchScript('js/view.js');
 
-  var style =
+  const style =
     'position: fixed; color: #c1c1c1; background-color: #313131; top: 50px; z-index: 99999; padding: 12px; border-radius: 6px; left: 30px; box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.68);';
 
   script = `

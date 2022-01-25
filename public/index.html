@@ -24,56 +24,52 @@
       <button id="load" title="Load last saved state from browser memory">Load last state</button>
       <button id="clear" title="Clear browser memory and all fields">Clear last state</button>
     </div></h2>
-    <p class="input-container">
+    <form id="formInit" class="input-container">
       <div class="input-field">
         <label for="key">Key <sup>512bit hex</sup></label>
-        <input id="key" type="text" placeholder="Key" />
+        <input id="key" type="text" placeholder="Key" required />
       </div>
       <div class='input-field'>
         <label for="salt">Salt <sup>512bit hex</sup></label>
-        <input id="salt" type="text" placeholder="Salt" />
+        <input id="salt" type="text" placeholder="Salt" required />
       </div>
       <div class='input-field'>
         <label for="iv">Initialization vector (iv) <sup>512bit hex</sup></label>
-        <input id="iv" type="text" placeholder="iv" /><br/>
+        <input id="iv" type="text" placeholder="iv" required /><br/>
       </div><br/>
       <div class='input-field'>
         <label for="stepCount">Step count</label>
-        <input id="stepCount" type="number" placeholder="step count" min="0" value="10000" />
+        <input id="stepCount" type="number" placeholder="step count" required min="0" value="10000" />
       </div>
       <div class='input-field'>
         <label for="startIndex">Start index</label>
-        <input id="startIndex" type="number" placeholder="start index" min="0" value="0" />
-      </div>
-    </p>
+        <input id="startIndex" type="number" placeholder="start index" required min="0" value="0" />
+      </div>  
+    </form>
 
     <h2>Encryption</h2>
-    <p>
-      <form id="formEncrypt">
-        <label for="inputEncrypt">Secret message<sup>*</sup></label>
-        <input id="inputEncrypt" type="text" value="secret!" placeholder="secret message" required />
-        <input type="submit" value="Encrypt" />
-      </form>  
-    </p>
+    <form id="formEncrypt">
+      <label for="inputEncrypt">Secret message<sup>*</sup></label>
+      <input id="inputEncrypt" type="text" value="secret!" placeholder="secret message" required />
+      <input type="submit" value="Encrypt" />
+    </form>  
 
     <h2>Generated output</h2>
-    <p>
+    <form id="formOutput">
       <label for="computedKey">Computed Key</label>
-      <input id="computedKey" type="text" placeholder="Computed key hex" />
+      <input id="computedKey" type="text" placeholder="Computed key hex" required />
       <div id="output"></div>
-    </p>
+    </form>
     
     <h2>Decryption</h2>
-    <p>
-      <form id="formDecrypt">
-        <label for="inputDecrypt">Encrypted message<sup>*</sup></label>
-        <input id="inputDecrypt" type="text" placeholder="encrypted message" required />
-        <input name='download' type="submit" value="Download view script" />
-        <input type="submit" value="Decrypt" />
-      </form>
+    <form id="formDecrypt">
+      <label for="inputDecrypt">Encrypted message<sup>*</sup></label>
+      <input id="inputDecrypt" type="text" placeholder="encrypted message" required />
+      <input name='download' type="submit" value="Download view script" />
+      <input type="submit" value="Decrypt" />
+    </form>
 
-      <div id="decryptResult"></div>
-    </p>
+    <div id="decryptResult"></div>
   </main>
   <footer>
     <span>Copyright © 2022 - All right reserved</span>

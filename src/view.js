@@ -1,14 +1,20 @@
-import { intervalToDuration, formatDuration, getTime } from 'date-fns';
+/* eslint-disable no-param-reassign */
+/* eslint-env browser */
+import intervalToDuration from 'date-fns/intervalToDuration';
+import formatDuration from 'date-fns/formatDuration';
+import getTime from 'date-fns/getTime';
+
 import { decrypt } from './slow-cipher';
 
 function renderProgress(outputEl, remainingTime, iterationsPerSecond, index, stepCount, computedKeyHex) {
-  let durationString = '';
+  let durationString = 'N/A';
   try {
     const duration = intervalToDuration({
       start: getTime(Date.now()),
       end: getTime(Date.now()) + Math.round(remainingTime * 1000),
     });
     durationString = formatDuration(duration);
+    // eslint-disable-next-line no-empty
   } catch (error) {}
 
   outputEl.innerHTML = `
@@ -48,9 +54,9 @@ function callback({
           index,
           computedKeyHex,
         }),
-      );  
-    } catch (_) {
-    }
+      );
+      // eslint-disable-next-line no-empty
+    } catch (_) {}
   }
 
   if (index % 10 === 0) {
@@ -74,7 +80,6 @@ function callback({
  */
 async function view(outputId, uuid, cipherText, keyHex, saltHex, ivHex, stepCount) {
   let startIndex = 0;
-  let message;
 
   const rootEl = document.getElementById(outputId);
 
@@ -85,15 +90,15 @@ async function view(outputId, uuid, cipherText, keyHex, saltHex, ivHex, stepCoun
   const outputEl = document.createElement('div');
   const resultEl = document.createElement('div');
 
-  rootEl.append(outputEl);
-  rootEl.append(resultEl);
+  rootEl.appendChild(outputEl);
+  rootEl.appendChild(resultEl);
 
   let computeDataString;
 
   try {
     computeDataString = localStorage.getItem(`computeData${uuid}`);
-  } catch (_) {
-  }
+    // eslint-disable-next-line no-empty
+  } catch (_) {}
 
   if (computeDataString) {
     const data = JSON.parse(computeDataString);
@@ -104,7 +109,7 @@ async function view(outputId, uuid, cipherText, keyHex, saltHex, ivHex, stepCoun
     }
   }
 
-  message = await decrypt(cipherText, keyHex, ivHex, saltHex, stepCount, startIndex, (data) =>
+  const message = await decrypt(cipherText, keyHex, ivHex, saltHex, stepCount, startIndex, (data) =>
     callback({ ...data, uuid, outputEl }),
   );
 
