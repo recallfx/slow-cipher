@@ -26,6 +26,7 @@ const inputEncryptEl = document.getElementById('inputEncrypt');
 const formOutputEl = document.getElementById('formOutput');
 const computedKeyEl = document.getElementById('computedKey');
 const outputEl = document.getElementById('output');
+const resultEl = document.getElementById('result');
 
 const formDecryptEl = document.getElementById('formDecrypt');
 const inputDecryptEl = document.getElementById('inputDecrypt');
@@ -156,6 +157,7 @@ async function onSubmitEncrypt(event) {
     return;
   }
 
+  resultEl.innerHTML = '';
   const startIndex = Number(startIndexEl.value);
   let key = keyEl.value;
 
@@ -181,7 +183,7 @@ async function onSubmitEncrypt(event) {
   computedKeyEl.value = computedKeyHex;
   inputDecryptEl.value = cipherText;
 
-  outputEl.innerHTML = `Decryption <a href="./decrypt.html?uuid=${nanoid()}&cipherText=${encodeURIComponent(
+  resultEl.innerHTML = `Decryption <a href="./decrypt.html?uuid=${nanoid()}&cipherText=${encodeURIComponent(
     cipherText,
   )}&key=${keyEl.value}&salt=${saltEl.value}&iv=${ivEl.value}&stepCount=${stepCountEl.value}">url</a>`;
 }
@@ -204,6 +206,7 @@ async function onSubmitDecrypt(event) {
     return;
   }
 
+  resultEl.innerHTML = '';
   const startIndex = Number(startIndexEl.value);
   const key = startIndex > 0 ? computedKeyEl.value : keyEl.value;
 
