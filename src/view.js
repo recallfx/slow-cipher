@@ -59,9 +59,7 @@ function callback({
     } catch (_) {}
   }
 
-  if (index % 10 === 0) {
-    renderProgress(outputEl, remainingTime, iterationsPerSecond, index, stepCount, computedKeyHex);
-  }
+  renderProgress(outputEl, remainingTime, iterationsPerSecond, index, stepCount, computedKeyHex);
 
   if (force) {
     outputEl.innerHTML = '';
