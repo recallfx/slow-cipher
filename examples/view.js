@@ -6,8 +6,8 @@ const message = 'some secret message';
 const key = randomHex();
 const iv = randomHex();
 const salt = randomHex();
-const stepCount = 10; // about 30s
-let script = fs.readFileSync('./dist/view.js').toString();
+const stepCount = 100;
+let script = fs.readFileSync('./public/js/view.js').toString();
 const exportIndex = script.lastIndexOf('export');
 
 script = script.substring(0, exportIndex);
